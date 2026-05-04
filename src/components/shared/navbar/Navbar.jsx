@@ -7,7 +7,8 @@ const Navbar = () => {
         <li><NavLink to={"/error-page"} className={({ isActive }) => `font-semibold ${isActive ? "text-green-500 border border-green-500" : ""}`}>Pages to Read</NavLink></li>
     </>
     return (
-        <div className="navbar bg-base-100 shadow-sm">
+        <div className="container mx-auto">
+            <div className="navbar">
             <div className="navbar-start">
                 <div className="dropdown">
                     <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -26,9 +27,11 @@ const Navbar = () => {
                     {navList}
                 </ul>
             </div>
-            <div className="navbar-end">
-                <a className="btn">Button</a>
+            <div className="navbar-end gap-5">
+                <button className="btn btn-success text-white">Sign In</button>
+                <button className="btn btn-info text-white">Sign Up</button>
             </div>
+        </div>
         </div>
     );
 };
