@@ -8,7 +8,8 @@ const BookDetails = () => {
     const expectedBook = books.find(book => book.bookId == bookId)
     const { bookName, image, review, totalPages, rating, tags, publisher, yearOfPublishing } = expectedBook;
 
-    const[storedBook, setStoredBook]=useState([])
+    const[storedBook, setStoredBook]=useState([]);
+    const[WishListBook, setWishListBook]=useState([]);
     const handleReadBook = (currentBook) =>{
         const isExistBook = storedBook.find(book=>book.bookId == expectedBook.bookId);
         if(isExistBook)
@@ -19,6 +20,17 @@ const BookDetails = () => {
                 alert(`${bookName} added successful`);
             }
     }
+    const handleWishListBook = (currentBook) =>{
+        const isExistBook = WishListBook.find(book=>book.bookId == expectedBook.bookId);
+        if(isExistBook)
+            alert(`${bookName} is already exist`)
+        else
+            {
+                setWishListBook([...WishListBook, currentBook]);
+                alert(`${bookName} added successful`);
+            }
+    }
+    
     return (
         <div className="card lg:card-side container mx-auto mt-10 gap-10">
             <figure className='p-18 bg-base-200 rounded-2xl w-full'>
@@ -56,7 +68,7 @@ const BookDetails = () => {
                 </div>
                 <div className='space-x-3'>
                     <button onClick={()=>handleReadBook(expectedBook)} className="btn btn-outline">Mark As Read</button>
-                    <button className="btn btn-info text-white">Add To Wishlist</button>
+                    <button onClick={()=>handleWishListBook(expectedBook)} className="btn btn-info text-white">Add To Wishlist</button>
                 </div>
             </div>
         </div>
