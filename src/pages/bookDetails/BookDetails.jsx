@@ -1,35 +1,19 @@
-import React, { use, useState } from 'react';
+import { useContext } from 'react';
 import { useParams } from 'react-router';
+import BookContext from '../../context/BookContext';
 
-const bookPromise = fetch('/booksData.json').then((res) => res.json());
 const BookDetails = () => {
-    const books = use(bookPromise);
-    const { bookId } = useParams();
-    const expectedBook = books.find(book => book.bookId == bookId)
-    const { bookName, image, review, totalPages, rating, tags, publisher, yearOfPublishing } = expectedBook;
 
-    const[storedBook, setStoredBook]=useState([]);
-    const[WishListBook, setWishListBook]=useState([]);
-    const handleReadBook = (currentBook) =>{
-        const isExistBook = storedBook.find(book=>book.bookId == expectedBook.bookId);
-        if(isExistBook)
-            alert(`${bookName} is already exist`)
-        else
-            {
-                setStoredBook([...storedBook, currentBook]);
-                alert(`${bookName} added successful`);
-            }
+    const { bookId } = useParams();
+    const { books, handleReadBook, handleWishListBook } = useContext(BookContext);
+    const expectedBook = books?.find(book => book.bookId == bookId);
+
+    if (!expectedBook) {
+        return <div className="container mx-auto mt-10">Book not found.</div>;
     }
-    const handleWishListBook = (currentBook) =>{
-        const isExistBook = WishListBook.find(book=>book.bookId == expectedBook.bookId);
-        if(isExistBook)
-            alert(`${bookName} is already exist`)
-        else
-            {
-                setWishListBook([...WishListBook, currentBook]);
-                alert(`${bookName} added successful`);
-            }
-    }
+
+    const { image, bookName, review, tags, totalPages, publisher, yearOfPublishing, rating,category } = expectedBook;
+
     
     return (
         <div className="card lg:card-side container mx-auto mt-10 gap-10">
@@ -40,10 +24,10 @@ const BookDetails = () => {
                     className='h-100 w-full' />
             </figure>
             <div className="card-body">
-                <h2 className="card-title text-4xl font-bold">The Catcher in the Rye</h2>
-                <h5 className="text-[20px] text-gray-600">By : Awlad Hossain</h5>
+                <h2 className="card-title text-4xl font-bold">{bookName}</h2>
+                <h5 className="text-[20px] text-gray-600">By : {publisher}</h5>
                 <div className="divider"></div>
-                <h5 className="text-[20px] text-gray-600">Fiction</h5>
+                <h5 className="text-[20px] text-gray-600">{category}</h5>
                 <div className="divider"></div>
                 <p className='text-[1rem] '><span className='font-bold'>Review :</span> {review}</p>
                 <div className='space-x-3'>
