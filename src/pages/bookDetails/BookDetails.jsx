@@ -1,4 +1,4 @@
-import React, { use } from 'react';
+import React, { use, useState } from 'react';
 import { useParams } from 'react-router';
 
 const bookPromise = fetch('/booksData.json').then((res) => res.json());
@@ -6,10 +6,21 @@ const BookDetails = () => {
     const books = use(bookPromise);
     const { bookId } = useParams();
     const expectedBook = books.find(book => book.bookId == bookId)
-    console.log(expectedBook);
-    const { bookName, author, image, review, totalPages, rating, category, tags, publisher, yearOfPublishing } = expectedBook;
+    const { bookName, image, review, totalPages, rating, tags, publisher, yearOfPublishing } = expectedBook;
+
+    const[storedBook, setStoredBook]=useState([])
+    const handleReadBook = (currentBook) =>{
+        const isExistBook = storedBook.find(book=>book.bookId == expectedBook.bookId);
+        if(isExistBook)
+            alert(`${bookName} is already exist`)
+        else
+            {
+                setStoredBook([...storedBook, currentBook]);
+                alert(`${bookName} added successful`);
+            }
+    }
     return (
-        <div className="card card-side container mx-auto mt-10 gap-10">
+        <div className="card lg:card-side container mx-auto mt-10 gap-10">
             <figure className='p-18 bg-base-200 rounded-2xl w-full'>
                 <img
                     src={image}
@@ -44,8 +55,8 @@ const BookDetails = () => {
                     </div>
                 </div>
                 <div className='space-x-3'>
-                    <button className="btn btn-outline">Read</button>
-                    <button className="btn btn-info text-white">Wishlist</button>
+                    <button onClick={()=>handleReadBook(expectedBook)} className="btn btn-outline">Mark As Read</button>
+                    <button className="btn btn-info text-white">Add To Wishlist</button>
                 </div>
             </div>
         </div>
