@@ -14,7 +14,7 @@ const Cards = ({book}) => {
                     </div>
                 </figure>
                 <div className="card-body">
-                    <div>
+                    <div className='space-x-3'>
                         <div className="badge badge-soft badge-success rounded-full">{book.tags[0]}</div>
                         <div className="badge badge-soft badge-success rounded-full">{book.tags[1]}</div>
                     </div>

@@ -1,5 +1,6 @@
 import { use, useState } from 'react';
 import BookContext from './BookContext';
+import { toast } from 'react-toastify';
 
 const bookPromise = fetch('/booksData.json').then((res) => res.json());
 const BookProvider = ({children}) => {
@@ -9,21 +10,21 @@ const BookProvider = ({children}) => {
     const handleReadBook = (currentBook) =>{
         const isExistBook = storedBook.find(book=>book.bookId == currentBook?.bookId);
         if(isExistBook)
-            alert(`${currentBook?.bookName} is already exist`)
+            toast.error(`${currentBook?.bookName} is already exist`)
         else
             {
                 setStoredBook([...storedBook, currentBook]);
-                alert(`${currentBook?.bookName} added successful`);
+                toast.success(`${currentBook?.bookName} added successful`);
             }
     }
     const handleWishListBook = (currentBook) =>{
         const isExistBook = WishListBook.find(book=>book.bookId == currentBook?.bookId);
         if(isExistBook)
-            alert(`${currentBook?.bookName} is already exist`)
+            toast.error(`${currentBook?.bookName} is already exist`)
         else
             {
                 setWishListBook([...WishListBook, currentBook]);
-                alert(`${currentBook?.bookName} added successful`);
+                toast.success(`${currentBook?.bookName} added successful`);
             }
     }
     const data = {
